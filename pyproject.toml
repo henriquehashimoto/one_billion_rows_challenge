@@ -1,0 +1,11 @@
+[project]
+name = "one-billion-rows-challenge"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fireducks>=1.2.2",
+    "ipykernel>=6.29.5",
+    "pandas>=2.2.3",
+]
