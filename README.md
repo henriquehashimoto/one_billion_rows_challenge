@@ -12,7 +12,29 @@ Below are the suggested data manipulation operations to measure and compare the 
 
 ---
 
-## Suggested Data Manipulation Operations
+# Generate File
+
+The dataset used in this challenge is synthetically generated using a Python script (`generate_measurements.py`) included in this repository. The script creates a parquet file (`measurements.parquet`) with the specified number of rows, where each line represents a weather station measurement in the format `city;temperature` (e.g., `São Paulo;23.5`). Below is an overview of how the data is generated:
+
+- **Source**: The script reads a list of weather station names from `data/weather_stations.csv`, deduplicates them, and uses a subset for generation.
+- **Randomization**:
+  - A random subset of up to 10,000 station names is selected from the list using `random.choices`.
+  - Temperatures are randomly generated as floats between -99.9°C and 99.9°C with one decimal place (e.g., `-12.3`, `45.7`).
+- **File Writing**:
+  - Data is written in batches of 10,000 rows to optimize performance and reduce memory usage.
+  - The output file is saved as `data/measurements.txt`.
+- **Default Configuration**: The default setting generates 1 million rows, but this can be adjusted by modifying the `num_rows_to_create` variable in the script.
+- **Size Estimation**: The script estimates the file size before generation and reports the actual size and elapsed time after completion.
+
+To generate a custom dataset (e.g., 1 billion rows), update the `num_rows_to_create` variable in the `main()` function and run:
+
+```bash
+python generate_measurements.py
+```
+
+---
+
+## Data Manipulation Operations for this test
 
 To evaluate the libraries effectively, the following operations are designed to test different aspects of performance, such as reading speed, filtering, aggregation, and memory usage.
 
