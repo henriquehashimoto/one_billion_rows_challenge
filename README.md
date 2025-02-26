@@ -20,17 +20,27 @@ Table of comparison between libraries
 
 # Settings
 
-## 1) Environment setting with uv 
+## Environment setting with uv 
 
-**1.1) Clone this repository**: using `git clone https://github.com/henriquehashimoto/one_billion_rows_challenge.git`
+**1) Clone this repository**: using `git clone https://github.com/henriquehashimoto/one_billion_rows_challenge.git`
 
-**1.2) Create venv**: `uv venv .venv` , if UV not installed: `pip install uv`
+**2) Create venv**: `uv venv .venv` , if UV not installed: `pip install uv`
 
-**1.3) Use libraries**: `uv sync`
+**3) Use libraries**: `uv sync`
 
 
+## Files and folders organization
 
-## 2) Creating file with 1 billion rows
+### data - save files that are manipulated
+
+Here you'll find the files that were used as source datas for the project
+
+### models - execution files
+
+These files are the ones that generated the test to compare the execution time, use them for your own test
+
+
+### src - Creating file with 1 billion rows
 
 The dataset used in this challenge is synthetically generated using a Python script (`generate_measurements.py`) included in this repository. The script creates a parquet file (`measurements.parquet`) with the specified number of rows, where each line represents a weather station measurement in the format `city;temperature` (e.g., `São Paulo;23.5`). Below is an overview of how the data is generated:
 
@@ -49,6 +59,11 @@ To generate a custom dataset (e.g., 1 billion rows), update the `num_rows_to_cre
 ```bash
 python generate_measurements.py
 ```
+
+### tests - random testing performed
+
+Here is some scripts for simple tests done to practice before the scripts created on "models"
+
 
 ---
 
@@ -112,6 +127,6 @@ Perform calculations over a sliding window, such as a moving average.
 - **Dataset Size**: Ensure the 1 billion-row file is realistic. Generate synthetic data with random values for `city` (e.g., 100 unique cities) and `temperature` (e.g., -10°C to 40°C).
 - **Metrics**: Record execution time, RAM usage, and optionally CPU usage for each operation.
 - **Incremental Testing**: Start with a smaller dataset (e.g., 10M or 100M rows) to debug code before scaling to 1 billion rows.
-- **DuckDB Advantage**: Leverage `duckdb`’s SQL optimization by writing operations as SQL queries and comparing them to Python APIs.
+- **DuckDB Advantage**: Leverage `duckdb`s SQL optimization by writing operations as SQL queries and comparing them to Python APIs.
 
 ---

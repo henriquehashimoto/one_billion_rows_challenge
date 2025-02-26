@@ -103,7 +103,7 @@ def build_test_data(weather_station_names, num_rows_to_create, chunk_size=10000)
     ])
 
     try:
-        with pq.ParquetWriter('./data/measurements.parquet', schema=schema, compression='gzip') as writer:
+        with pq.ParquetWriter('./data/measurements_2.parquet', schema=schema, compression='gzip') as writer:
             for s in range(0, num_rows_to_create // chunk_size):
                 batch = random.choices(station_names_10k_max, k=chunk_size)
                 prepped_deviated_batch = [{'station': station, 'temperature': random.uniform(coldest_temp, hottest_temp)} for station in batch]
@@ -118,10 +118,10 @@ def build_test_data(weather_station_names, num_rows_to_create, chunk_size=10000)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
-    file_size = os.path.getsize("./data/measurements.parquet")
+    file_size = os.path.getsize("./data/measurements_2.parquet")
     human_file_size = convert_bytes(file_size)
 
-    print("Arquivo escrito com sucesso data/measurements.parquet")
+    print("Arquivo escrito com sucesso data/measurements_2.parquet")
     print(f"Tamanho final:  {human_file_size}")
     print(f"Tempo decorrido: {format_elapsed_time(elapsed_time)}")
 
