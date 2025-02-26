@@ -1,1 +1,95 @@
-# one_billion_rows_challenge
+# Performance Comparison of Python Libraries for Large Datasets
+
+I'm conducting a challenge to determine the best Python library for reading and manipulating a dataset with 1 billion rows. The libraries under evaluation are:
+
+- `pandas`
+- `fireducks`
+- `duckdb`
+
+The goal is to assess which library performs best for reading a file with 1 billion rows and which one executes specific operations most efficiently. The dataset consists of two columns: `city` (string) and `temperature` (integer).
+
+Below are the suggested data manipulation operations to measure and compare the performance of these libraries.
+
+---
+
+## Suggested Data Manipulation Operations
+
+To evaluate the libraries effectively, the following operations are designed to test different aspects of performance, such as reading speed, filtering, aggregation, and memory usage.
+
+### 1. File Reading
+Measure the time taken to load the entire dataset with 1 billion rows.
+- **Test**: Load the file (e.g., CSV, Parquet) and display the first 5 rows to confirm successful reading.
+- **Metrics**: Time to read, memory usage.
+- **Why?**: Assesses initial data ingestion performance and memory efficiency.
+
+### 2. Simple Filtering
+Evaluate the speed of filtering rows based on conditions.
+- **Examples**:
+  - Filter rows where `temperature > 30`.
+  - Filter rows for a specific city (e.g., "São Paulo").
+- **Why?**: Tests the efficiency of row selection and comparison operations.
+
+### 3. Aggregation by City
+Compute aggregated statistics grouped by the `city` column.
+- **Examples**:
+  - Average temperature per city.
+  - Maximum and minimum temperature per city.
+  - Count of records per city.
+- **Why?**: Evaluates grouping (`groupby`) and numerical computation performance.
+
+### 4. Joining with Another Dataset
+Perform a join operation with a smaller dataset (e.g., 100 cities with population data).
+- **Test**: Execute an `inner join` or `left join` based on the `city` column.
+- **Why?**: Measures performance on a computationally intensive operation common in data analysis.
+
+### 5. Adding a New Column
+Create a new column based on a simple calculation or condition.
+- **Examples**:
+  - Convert temperature from Celsius to Fahrenheit (`temperature * 1.8 + 32`).
+  - Categorize temperatures (e.g., "cold" if < 15°C, "warm" if 15–25°C, "hot" if > 25°C).
+- **Why?**: Tests the speed of applying functions or conditions across all rows.
+
+### 6. Sorting
+Sort the dataset by one or both columns.
+- **Examples**:
+  - Sort by `temperature` (ascending or descending).
+  - Sort by `city` (alphabetically).
+- **Why?**: Assesses sorting efficiency, which can be memory- and CPU-intensive.
+
+### 7. Removing Duplicates
+Identify and remove duplicate rows based on `city` and `temperature`.
+- **Why?**: Tests the ability to compare and eliminate redundant data.
+
+### 8. Window Functions
+Perform calculations over a sliding window, such as a moving average.
+- **Example**: Compute the moving average temperature for each city over the last 5 measurements (assuming an implicit order, e.g., a timestamp column).
+- **Why?**: Evaluates performance on advanced analytical operations.
+
+---
+
+## Testing Tips
+
+- **Dataset Size**: Ensure the 1 billion-row file is realistic. Generate synthetic data with random values for `city` (e.g., 100 unique cities) and `temperature` (e.g., -10°C to 40°C).
+- **Metrics**: Record execution time, RAM usage, and optionally CPU usage for each operation.
+- **Incremental Testing**: Start with a smaller dataset (e.g., 10M or 100M rows) to debug code before scaling to 1 billion rows.
+- **DuckDB Advantage**: Leverage `duckdb`’s SQL optimization by writing operations as SQL queries and comparing them to Python APIs.
+
+---
+
+## Example Test Workflow
+
+1. **Reading**: Load the dataset.
+2. **Filtering**: Filter rows where `temperature > 30`.
+3. **Aggregation**: Calculate the average temperature per city.
+4. **New Column**: Add a Fahrenheit temperature column.
+5. **Sorting**: Sort by temperature in descending order.
+
+This workflow provides a comprehensive comparison of how `pandas`, `fireducks`, and `duckdb` handle various tasks.
+
+---
+
+## Next Steps
+
+With these operations, you’ll gain insights into each library’s strengths and weaknesses. If you need help generating the dataset or writing the code, feel free to explore the other sections of this repository or open an issue!
+
+Happy coding, and good luck with the challenge!

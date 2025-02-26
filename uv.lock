@@ -286,6 +286,7 @@ dependencies = [
     { name = "fireducks" },
     { name = "ipykernel" },
     { name = "pandas" },
+    { name = "pyarrow" },
 ]
 
 [package.metadata]
@@ -293,6 +294,7 @@ requires-dist = [
     { name = "fireducks", specifier = ">=1.2.2" },
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "pandas", specifier = ">=2.2.3" },
+    { name = "pyarrow", specifier = ">=19.0.1" },
 ]
 
 [[package]]

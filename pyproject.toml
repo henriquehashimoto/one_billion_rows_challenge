@@ -8,4 +8,5 @@ dependencies = [
     "fireducks>=1.2.2",
     "ipykernel>=6.29.5",
     "pandas>=2.2.3",
+    "pyarrow>=19.0.1",
 ]
