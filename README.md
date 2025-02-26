@@ -1,4 +1,4 @@
-# READING 1 BILLION ROWS - WHICH IS FASTEST?
+# 1 BILLION ROWS CHALLENGE - Exploring Python's potential
 
 I'm conducting a challenge to determine the best Python library for reading and manipulating a dataset with 1 billion rows. The libraries under evaluation are:
 
