@@ -63,7 +63,7 @@ All tests were conducted with pure Python and each library, the results of proce
 
 As we can see, DuckDB won with some margin! 
 
-![comparison]("tests/performance_comparison_seaborn.png")
+![comparison](tests/performance_comparison_seaborn.png)
 
 ---
 
