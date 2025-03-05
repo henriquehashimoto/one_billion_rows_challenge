@@ -82,12 +82,8 @@ def estimate_file_size(weather_station_names, num_rows_to_create):
 
     return f"O tamanho estimado do arquivo é:  {human_file_size}.\nO tamanho final será provavelmente muito menor (metade)."
 
-import pyarrow.parquet as pq
-import pyarrow as pa
 
-
-
-def build_test_data(weather_station_names, num_rows_to_create, chunk_size=10000):
+def build_test_data(weather_station_names, num_rows_to_create):
     """
     Generates and writes to file the requested length of test data
     """
@@ -95,41 +91,39 @@ def build_test_data(weather_station_names, num_rows_to_create, chunk_size=10000)
     coldest_temp = -99.9
     hottest_temp = 99.9
     station_names_10k_max = random.choices(weather_station_names, k=10_000)
-
-    # Define the schema for the Parquet file
-    schema = pa.schema([
-        pa.field('station', pa.string()),
-        pa.field('temperature', pa.float32())
-    ])
+    batch_size = 10000 # instead of writing line by line to file, process a batch of stations and put it to disk
+    progress_step = max(1, (num_rows_to_create // batch_size) // 100)
+    print('Criando o arquivo... isso vai demorar uns 10 minutos...')
 
     try:
-        with pq.ParquetWriter('./data/measurements_2.parquet', schema=schema, compression='gzip') as writer:
-            for s in range(0, num_rows_to_create // chunk_size):
-                batch = random.choices(station_names_10k_max, k=chunk_size)
-                prepped_deviated_batch = [{'station': station, 'temperature': random.uniform(coldest_temp, hottest_temp)} for station in batch]
-                table = pa.Table.from_pylist(prepped_deviated_batch, schema=schema)
-                writer.write_table(table)
-
+        with open("./data/measurements.txt", 'w', encoding="utf-8") as file:
+            for s in range(0,num_rows_to_create // batch_size):
+                
+                batch = random.choices(station_names_10k_max, k=batch_size)
+                prepped_deviated_batch = '\n'.join([f"{station};{random.uniform(coldest_temp, hottest_temp):.1f}" for station in batch]) # :.1f should quicker than round on a large scale, because round utilizes mathematical operation
+                file.write(prepped_deviated_batch + '\n')
+                
         sys.stdout.write('\n')
     except Exception as e:
         print("Something went wrong. Printing error info and exiting...")
         print(e)
         exit()
-
+    
     end_time = time.time()
     elapsed_time = end_time - start_time
-    file_size = os.path.getsize("./data/measurements_2.parquet")
+    file_size = os.path.getsize("./data/measurements.txt")
     human_file_size = convert_bytes(file_size)
-
-    print("Arquivo escrito com sucesso data/measurements_2.parquet")
+ 
+    print("Arquivo escrito com sucesso data/measurements.txt")
     print(f"Tamanho final:  {human_file_size}")
     print(f"Tempo decorrido: {format_elapsed_time(elapsed_time)}")
+
 
 def main():
     """
     main program function
     """
-    num_rows_to_create = 500000000
+    num_rows_to_create = 1000000000
     weather_station_names = []
     weather_station_names = build_weather_station_name_list()
     print(estimate_file_size(weather_station_names, num_rows_to_create))

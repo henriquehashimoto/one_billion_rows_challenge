@@ -1,20 +1,59 @@
-# 1 BILLION ROWS CHALLENGE - Exploring Python's potential
+# 1 BILLION ROWS CHALLENGE 
 
-I'm conducting a challenge to determine the best Python library for reading and manipulating a dataset with 1 billion rows. The libraries under evaluation are:
+Inspired by [Luciano Galvao Filho](https://github.com/lvgalvao) original challange, I'm adding into the challenge a 2 new competitors. 
+
+The goal of this project is to demonstrate how to efficiently process a massive data file containing 1 billion rows (~14GB), specifically to calculate statistics (including aggregation and sorting which are heavy operations) using Python.
+
+The libraries under evaluation are:
 
 - `pandas`
 - `fireducks`
 - `duckdb`
+- `pyspark`
 
-The goal is to assess which library performs best for reading a file with 1 billion rows and which one executes specific operations most efficiently. The dataset consists of two columns: `city` (string) and `temperature` (integer).
+The data file consists of temperature measurements from several weather stations. Each record follows the format `<string:station name>;<double:measurement>`, with the temperature being displayed to one decimal place accuracy.
 
-Below are the suggested data manipulation operations to measure and compare the performance of these libraries.
+Here are ten example lines from the file:
+
+
+```
+Istanbul;6.2
+Roseau;34.4
+Conakry;31.2
+Istanbul;23.0
+Hamburg;12.0
+Bulawayo;8.9
+```
+
+The challenge is to develop a Python program capable of reading this file and calculating the minimum, average (rounded to one decimal place) and maximum temperature for each station, displaying the results in a table sorted by station name.
+
+| station      | min_temperature | mean_temperature | max_temperature |
+|--------------|-----------------|------------------|-----------------|
+| Abha         | -31.1           | 18.0             | 66.5            |
+| Abidjan      | -25.9           | 26.0             | 74.6            |
+| Abéché       | -19.8           | 29.4             | 79.9            |
+| Accra        | -24.8           | 26.4             | 76.3            |
+| Yinchuan     | -45.2           | 9.0              | 56.9            |
+| Zagreb       | -39.2           | 10.7             | 58.1            |
+| Zanzibar City| -26.5           | 26.0             | 75.2            |
+| Zürich       | -42.0           | 9.3              | 63.6            |
+| Ürümqi       | -42.1           | 7.4              | 56.7            |
+| İzmir        | -34.4           | 17.9             | 67.9            |
+
+
 
 ---
 
 # Results
 
-Table of comparison between libraries
+Table of comparison between libraries.
+
+The tests were done in a PC with 32gb of RAM, NVME M.2 as SSD and a Ryzen 5 5600G as CPU. 
+
+**Note:** `All solutions was ran in a Linux virtualization with Window's WSL, this may have impacted the performance overall to all tests`
+
+All tests were conducted with pure Python and each library, the results of processing the 1 billion row file are:
+
 
 ---
 
@@ -42,7 +81,7 @@ These files are the ones that generated the test to compare the execution time, 
 
 ### src - Creating file with 1 billion rows
 
-The dataset used in this challenge is synthetically generated using a Python script (`generate_measurements.py`) included in this repository. The script creates a parquet file (`measurements.parquet`) with the specified number of rows, where each line represents a weather station measurement in the format `city;temperature` (e.g., `São Paulo;23.5`). Below is an overview of how the data is generated:
+The dataset used in this challenge is synthetically generated using a Python script (`generate_measurements.py`) included in this repository. The script creates a txt file (`measurements.txt`) with the specified number of rows, where each line represents a weather station measurement in the format `city;temperature` (e.g., `São Paulo;23.5`). Below is an overview of how the data is generated:
 
 - **Source**: The script reads a list of weather station names from `data/weather_stations.csv`, deduplicates them, and uses a subset for generation.
 - **Randomization**:
@@ -64,61 +103,6 @@ python generate_measurements.py
 
 Here is some scripts for simple tests done to practice before the scripts created on "models"
 
-
----
-
-## Data Manipulation Operations for this test
-
-To evaluate the libraries effectively, the following operations are designed to test different aspects of performance, such as reading speed, filtering, aggregation, and memory usage.
-
-### 1. File Reading
-Measure the time taken to load the entire dataset with 1 billion rows.
-- **Test**: Load the file (e.g., CSV, Parquet) and display the first 5 rows to confirm successful reading.
-- **Metrics**: Time to read, memory usage.
-- **Why?**: Assesses initial data ingestion performance and memory efficiency.
-
-### 2. Simple Filtering
-Evaluate the speed of filtering rows based on conditions.
-- **Examples**:
-  - Filter rows where `temperature > 30`.
-  - Filter rows for a specific city (e.g., "São Paulo").
-- **Why?**: Tests the efficiency of row selection and comparison operations.
-
-### 3. Aggregation by City
-Compute aggregated statistics grouped by the `city` column.
-- **Examples**:
-  - Average temperature per city.
-  - Maximum and minimum temperature per city.
-  - Count of records per city.
-- **Why?**: Evaluates grouping (`groupby`) and numerical computation performance.
-
-### 4. Joining with Another Dataset
-Perform a join operation with a smaller dataset (e.g., 100 cities with population data).
-- **Test**: Execute an `inner join` or `left join` based on the `city` column.
-- **Why?**: Measures performance on a computationally intensive operation common in data analysis.
-
-### 5. Adding a New Column
-Create a new column based on a simple calculation or condition.
-- **Examples**:
-  - Convert temperature from Celsius to Fahrenheit (`temperature * 1.8 + 32`).
-  - Categorize temperatures (e.g., "cold" if < 15°C, "warm" if 15–25°C, "hot" if > 25°C).
-- **Why?**: Tests the speed of applying functions or conditions across all rows.
-
-### 6. Sorting
-Sort the dataset by one or both columns.
-- **Examples**:
-  - Sort by `temperature` (ascending or descending).
-  - Sort by `city` (alphabetically).
-- **Why?**: Assesses sorting efficiency, which can be memory- and CPU-intensive.
-
-### 7. Removing Duplicates
-Identify and remove duplicate rows based on `city` and `temperature`.
-- **Why?**: Tests the ability to compare and eliminate redundant data.
-
-### 8. Window Functions
-Perform calculations over a sliding window, such as a moving average.
-- **Example**: Compute the moving average temperature for each city over the last 5 measurements (assuming an implicit order, e.g., a timestamp column).
-- **Why?**: Evaluates performance on advanced analytical operations.
 
 ---
 

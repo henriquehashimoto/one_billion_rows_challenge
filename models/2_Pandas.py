@@ -1,4 +1,4 @@
-import fireducks.pandas as pd
+import pandas as pd
 import numpy as np
 import time
 import os
@@ -6,12 +6,12 @@ from typing import Dict, Union
 from multiprocessing import Pool, cpu_count
 from functools import partial
 
-
+ 
 #================================================================
 # Configuration constants
 #================================================================
 TOTAL_LINES = 1_000_000_000  # Total number of lines in the file
-CHUNK_SIZE = 25_000_000  # Reduced chunk size for memory efficiency
+CHUNK_SIZE = 50_000_000  # Reduced chunk size for memory efficiency
 FILENAME = "data/measurements.txt"
 NUM_CORES = max(1, cpu_count() - 1)  # Leave one core free
 
