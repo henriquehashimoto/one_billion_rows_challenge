@@ -61,6 +61,9 @@ All tests were conducted with pure Python and each library, the results of proce
 
 **Note:** FireDucks performance may be affected due to execution be on a WSL virtualization of VSCode. A pure linux based system may present a better result.
 
+**Note:** Spark is expected to underperform as this is a standalone, single home pc env. In a real cluster env the performance would be completely different. But, the main point of this technology be on this test is to simply test on this specific scenario.
+
+
 As we can see, DuckDB won with some margin! 
 
 ![comparison](tests/performance_comparison_seaborn.png)
