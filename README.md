@@ -50,10 +50,18 @@ Table of comparison between libraries.
 
 The tests were done in a PC with 32gb of RAM, NVME M.2 as SSD and a Ryzen 5 5600G as CPU. 
 
-**Note:** `All solutions was ran in a Linux virtualization with Window's WSL, this may have impacted the performance overall to all tests`
-
 All tests were conducted with pure Python and each library, the results of processing the 1 billion row file are:
 
+| Deploy on | Time of Execution |
+|-----------|-------------------|
+| FireDucks | 141.255 sec       |
+| Pandas    | 328.50 sec        |
+| DuckDB    | 23.39 sec         | 
+| PySpark   | 129.84            |
+
+**Note:** FireDucks performance may be affected due to execution be on a WSL virtualization of VSCode. A pure linux based system may present a better result.
+
+As we can see, DuckDB won with some margin! 
 
 ---
 
